@@ -136,7 +136,7 @@ function Warehouse() {
     this.returnMoney = function () {
         return money;
     }
- 
+
 }
 function Store() {
     this.products = {};
@@ -215,7 +215,7 @@ function Store() {
     this.night = function () {
         this.dayTime = false;
     }
-   
+
 }
 
 
