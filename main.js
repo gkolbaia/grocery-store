@@ -73,7 +73,7 @@ function Person(name) {
                     this.personisAt = null;
                 }
             } else {
-                throw 'You are not at destination';
+                throw 'You are not at the place you want to enter';
             }
         }
     }
@@ -136,12 +136,14 @@ function Warehouse() {
     this.returnMoney = function () {
         return money;
     }
+ 
 }
 function Store() {
+    this.products = {};
     this.personsInStore = [];
     var budget = 1000;
     this.warehouse = new Warehouse();
-    this.needsPermission = null;
+    this.needsPermission = true;
     this.dayTime = null;
     this.storeIsOpen = null;
     this.staff = null;
@@ -161,7 +163,7 @@ function Store() {
     }
     this.openStore = function () {
         if (this.dayTime) {
-            if (person1.personIsIn == store) {
+            if (this.staff.personIsIn == this) {
                 this.storeIsOpen = true;
 
             } else {
@@ -179,7 +181,7 @@ function Store() {
                     return true;
                 }
             } else {
-                return false;
+                throw 'we are closed';
             }
         } else {
             return true;
@@ -213,28 +215,31 @@ function Store() {
     this.night = function () {
         this.dayTime = false;
     }
+   
 }
-var person1 = new Person('giorgi');
-var person2 = new Person('irakli');
+
+
+
+
+var giorgi = new Person('giorgi');
+var irakli = new Person('irakli');
 var store = new Store();
 var home = new Home();
 store.day();
-store.addStaff(person1);
-person1.personAwake();
-person1.walk(store);
-person1.goIn(store);
+giorgi.personAwake();
+irakli.personAwake();
+giorgi.walk(store);
+irakli.walk(store);
+store.addStaff(giorgi);
+giorgi.goIn(store);
 store.openStore();
-store.buyingProducts('book1', 2, 4);
-store.buyingProducts('book2', 3, 5);
-person2.personAwake();
-person2.walk(store);
-person2.goIn(store);
-person2.buy('book1', 2)
-console.log(person2.personIsIn);
-console.log(store.warehouse.returnWarehouseProducts());
+irakli.goIn(store);
+store.buyingProducts('book1', 4, 5);
+irakli.leaveBuilding(store);
+irakli.walk(home);
+irakli.goIn(home);
+irakli.personSleep();
 
 
-
-// store.buyingProducts('book1',2,4);
-// store.buyingProducts('book2',3,5);
-
+console.log(store.returnBudget());
+console.log(irakli.awake);
