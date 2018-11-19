@@ -25,7 +25,7 @@
 
 function Person(name) {
     var money = 100;
-    this.items = {};
+    var items = {};
     this.name = name;
     this.awake = null;
     this.personIsIn = null;
@@ -96,10 +96,10 @@ function Person(name) {
         if (this.personIsIn) {
             if (this.personIsIn.storeProducts[product]) {
                 if (money >= this.personIsIn.storeProducts[product]['price'] * amount) {
-                    if (this.items[product]) {
-this.items[product]['amount'] += amount;
+                    if (items[product]) {
+                        items[product]['amount'] += amount;
                     } else {
-                        this.items[product] = this.personIsIn.sellProducts(product, amount);
+                        items[product] = this.personIsIn.sellProducts(product, amount);
                     }
                 } else {
                     throw 'you dont have enough money'
@@ -113,11 +113,11 @@ this.items[product]['amount'] += amount;
     }
     this.saveItemInHome = function (product) {
         if (this.personIsIn == home) {
-            if (this.items[product]) {
+            if (items[product]) {
                 home.items[product] = {
-                    amount: this.items[product]['amount']
+                    amount: items[product]['amount']
                 }
-                delete this.items[product];
+                delete items[product];
             } else {
                 throw 'you dont have that product to save';
             }
@@ -125,11 +125,13 @@ this.items[product]['amount'] += amount;
             throw ' you are not at home ';
         }
     }
+    this.returnItems = function(){
+        return items;
+    }
 }
 function Home() {
     this.items = {};
     this.needsPermission = false;
-    var homeItems = [];
 }
 function Warehouse() {
 
@@ -176,7 +178,7 @@ function Store() {
     var budget = 1000;
     this.warehouse = new Warehouse();
     this.needsPermission = true;
-    this.dayTime = null;
+    
     this.staff = null;
     this.day = function () {
         this.dayTime = true;
@@ -279,48 +281,6 @@ function Store() {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var giorgi = new Person('giorgi');
 var irakli = new Person('irakli');
 var store = new Store();
@@ -355,4 +315,7 @@ irakli.saveItemInHome('book1');
 console.log(home.items)
 console.log(store.storeProducts);
 console.log(store.warehouse.returnWarehouseProducts());
-console.log(irakli.items)
+console.log(irakli.returnItems());
+
+
+
