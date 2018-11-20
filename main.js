@@ -32,7 +32,7 @@ function Person(name) {
         if (this.awake != true) {
             this.awake = true;
         } else {
-            console.log('You are already awake');
+            throw 'You are already awake';
         }
     }
     this.personSleep = function () {
@@ -40,7 +40,7 @@ function Person(name) {
             if (this.awake == true) {
                 this.awake = false;
             } else {
-                console.log('you are already sleeping')
+                throw 'you are already sleeping';
             }
         } else {
             throw 'you are not home';
@@ -100,10 +100,10 @@ function Person(name) {
                         items[product] = this.personIsIn.sellProducts(product, amount);
                     }
                 } else {
-                    throw 'you dont have enough money'
+                    console.log('you dont have enough money')
                 }
             } else {
-                throw 'there is not such product in this store';
+                console.log('there is not such product in this store');
             }
         } else {
             throw 'you are not in shop'
@@ -128,10 +128,10 @@ function Person(name) {
     }
     this.describePlace = function () {
         if (this.personIsIn) {
-            for(var property in this.personIsIn){
-                if(typeof this.personIsIn[property]!='function'){
-                    if(typeof this.personIsIn[property]!='boolean'){
-                        console.log(property +':');
+            for (var property in this.personIsIn) {
+                if (typeof this.personIsIn[property] != 'function') {
+                    if (typeof this.personIsIn[property] != 'boolean') {
+                        console.log(property + ':');
                         console.log(this.personIsIn[property]);
                     }
                 }
@@ -139,17 +139,6 @@ function Person(name) {
         }
     }
 }
-
-// for (var property1 in store) {
-//     if (typeof store[property1] != 'function') {
-//         if (typeof store[property1] != 'boolean') {
-//             console.log(property1 + ':');
-//             console.log(store[property1])
-//         }
-//     }
-// }
-
-
 function Home() {
     this.items = {};
     this.needsPermission = false;
@@ -188,7 +177,7 @@ function Warehouse() {
             }
             return productToGive;
         } else {
-            throw 'there is no ' + product + ' in warewhouse';
+            console.log('there is no ' + product + ' in warewhouse');
         }
     }
 }
@@ -207,7 +196,7 @@ function Store() {
     }
     this.addStaff = function (person) {
         if (this.staff) {
-            throw 'we already have staff';
+            console.log('we already have staff');
         } else {
             this.staff = person;
         }
@@ -240,7 +229,7 @@ function Store() {
                     return true;
                 }
             } else {
-                throw 'we are closed';
+                console.log('we are closed');
             }
         } else {
             return true;
@@ -270,7 +259,7 @@ function Store() {
                 }
                 return productToSell;
             } else {
-                throw 'we dont have ' + product;
+                console.log('we dont have ' + product);
             }
         } else {
             throw 'we are closed';
@@ -331,12 +320,12 @@ irakli.leaveBuilding(store);
 irakli.walk(home);
 irakli.goIn(home);
 irakli.saveItemInHome('book1');
-//wasashleli
+
 irakli.leaveBuilding(home);
 irakli.walk(store);
 irakli.goIn(store);
 irakli.describePlace();
-//console.log(irakli.personIsIn)
+console.log(irakli.personIsIn)
 //  console.log(home.items)
 //  console.log(store.storeProducts);
 //  console.log(store.warehouse.returnWarehouseProducts());
