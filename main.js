@@ -126,13 +126,35 @@ function Person(name) {
     this.returnItems = function () {
         return items;
     }
+    this.describePlace = function () {
+        if (this.personIsIn) {
+            for(var property in this.personIsIn){
+                if(typeof this.personIsIn[property]!='function'){
+                    if(typeof this.personIsIn[property]!='boolean'){
+                        console.log(property +':');
+                        console.log(this.personIsIn[property]);
+                    }
+                }
+            }
+        }
+    }
 }
+
+// for (var property1 in store) {
+//     if (typeof store[property1] != 'function') {
+//         if (typeof store[property1] != 'boolean') {
+//             console.log(property1 + ':');
+//             console.log(store[property1])
+//         }
+//     }
+// }
+
+
 function Home() {
     this.items = {};
     this.needsPermission = false;
 }
 function Warehouse() {
-
     var warehouseProducts = {};
     this.addProduct = function (product, amount, price) {
         if (warehouseProducts[product]) {
@@ -172,7 +194,8 @@ function Warehouse() {
 }
 function Store() {
     this.storeProducts = {};
-    this.personsInStore = [];
+    var personsInStore = [];
+    this.personAmountInStore = null;
     var budget = 1000;
     this.warehouse = new Warehouse();
     this.needsPermission = true;
@@ -212,7 +235,8 @@ function Store() {
                 if (person.name == 'giorgi') {
                     return false;
                 } else {
-                    this.personsInStore.push(person['name'])
+                    personsInStore.push(person['name']);
+                    this.personAmountInStore += 1;
                     return true;
                 }
             } else {
@@ -258,7 +282,7 @@ function Store() {
                 this.warehouse.addProduct(product, amount, price);
                 budget -= amount * price;
             } else {
-                throw 'we have no so much money';
+                console.log('we have no enough money');
             }
         } else {
             throw 'store is closed';
@@ -270,48 +294,54 @@ function Store() {
     }
     this.getProductsFromWarehouse = function (product, amount) {
         if (this.storeProducts[product]) {
-            this.storeProducts[product]['amount'] += amount;
+            this.storeProducts[product]['amount'] += this.warehouse.giveProductToStore(product, amount)['amount'];
         } else {
             this.storeProducts[product] = this.warehouse.giveProductToStore(product, amount);
         }
     }
 }
+var giorgi = new Person('giorgi');
+var irakli = new Person('irakli');
+var store = new Store();
+var home = new Home();
+store.day();
+giorgi.personAwake();
+irakli.personAwake();
+giorgi.walk(store);
+irakli.walk(store);
+store.day();
+store.addStaff(giorgi);
+giorgi.goIn(store);
+irakli.goIn(store);
+store.openStore();
+store.buyingProducts('book1', 4, 6);
+store.buyingProducts('book2', 6, 7);
+store.buyingProducts('book3', 11, 9);
+store.buyingProducts('book4', 10, 12);
+store.buyingProducts('book5', 4, 14);
+store.buyingProducts('book6', 2, 2);
+store.getProductsFromWarehouse('book1', 2);
+store.getProductsFromWarehouse('book2', 4);
+store.getProductsFromWarehouse('book3', 6);
+store.getProductsFromWarehouse('book4', 8);
+store.getProductsFromWarehouse('book5', 3);
+store.getProductsFromWarehouse('book2', 1);
+irakli.buy('book1', 1);
+irakli.leaveBuilding(store);
+irakli.walk(home);
+irakli.goIn(home);
+irakli.saveItemInHome('book1');
+//wasashleli
+irakli.leaveBuilding(home);
+irakli.walk(store);
+irakli.goIn(store);
+irakli.describePlace();
+//console.log(irakli.personIsIn)
+//  console.log(home.items)
+//  console.log(store.storeProducts);
+//  console.log(store.warehouse.returnWarehouseProducts());
+//  console.log(irakli.returnItems());
 
-
- var giorgi = new Person('giorgi');
- var irakli = new Person('irakli');
- var store = new Store();
- var home = new Home();
- store.day();
- giorgi.personAwake();
- irakli.personAwake();
- giorgi.walk(store);
- irakli.walk(store);
- store.day();
- store.addStaff(giorgi);
- giorgi.goIn(store);
- irakli.goIn(store);
- store.openStore();
- store.buyingProducts('book1', 4, 6);
- store.buyingProducts('book2', 6, 7);
- store.buyingProducts('book3', 11, 9);
- store.buyingProducts('book4', 10, 12);
- store.buyingProducts('book5', 4, 14);
- store.buyingProducts('book6', 2, 2);
- store.getProductsFromWarehouse('book1', 2);
- store.getProductsFromWarehouse('book2', 4);
- store.getProductsFromWarehouse('book3', 6);
- store.getProductsFromWarehouse('book4', 8);
- store.getProductsFromWarehouse('book5', 3);
- irakli.buy('book1', 2);
- irakli.leaveBuilding(store);
- irakli.walk(home);
- irakli.goIn(home);
- irakli.saveItemInHome('book1');
- console.log(home.items)
- console.log(store.storeProducts);
- console.log(store.warehouse.returnWarehouseProducts());
- console.log(irakli.returnItems());
 
 
 
