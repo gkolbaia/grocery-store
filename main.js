@@ -171,7 +171,7 @@ function Warehouse() {
                 }
                 warehouseProducts[product]['amount'] -= amount;
             } else {
-                console.log('we dont have so many ' + product + ' take ' + warehouseProducts[product]['amount'] + ' one');
+                console.log('we dont have so many ' + product + ' take ' + warehouseProducts[product]['amount']);
                 productToGive = warehouseProducts[product];
                 delete warehouseProducts[product];
             }
@@ -188,11 +188,12 @@ function Store() {
     var budget = 1000;
     this.warehouse = new Warehouse();
     this.needsPermission = true;
-    this.day = function () {
-        this.dayTime = true;
-    }
-    this.night = function () {
-        this.dayTime = false;
+    this.dayTime = function () {
+        if (new Date().getHours() > 10 && new Date().getHours() < 19) {
+            return true;
+        } else {
+            return false;
+        }
     }
     this.addStaff = function (person) {
         if (this.staff) {
@@ -209,10 +210,9 @@ function Store() {
         }
     }
     this.openStore = function () {
-        if (this.dayTime) {
+        if (this.dayTime()) {
             if (this.staff.personIsIn == this) {
                 return true;
-
             } else {
                 return false;
             }
@@ -276,7 +276,6 @@ function Store() {
         } else {
             throw 'store is closed';
         }
-
     }
     this.returnBudget = function () {
         return budget;
@@ -289,20 +288,19 @@ function Store() {
         }
     }
 }
+
 var giorgi = new Person('giorgi');
 var irakli = new Person('irakli');
 var store = new Store();
 var home = new Home();
-store.day();
+store.dayTime();
 giorgi.personAwake();
 irakli.personAwake();
 giorgi.walk(store);
 irakli.walk(store);
-store.day();
 store.addStaff(giorgi);
 giorgi.goIn(store);
 irakli.goIn(store);
-store.openStore();
 store.buyingProducts('book1', 4, 6);
 store.buyingProducts('book2', 6, 7);
 store.buyingProducts('book3', 11, 9);
@@ -315,22 +313,20 @@ store.getProductsFromWarehouse('book3', 6);
 store.getProductsFromWarehouse('book4', 8);
 store.getProductsFromWarehouse('book5', 3);
 store.getProductsFromWarehouse('book2', 1);
-irakli.buy('book1', 1);
+irakli.buy('book1', 2);
+store.getProductsFromWarehouse('book1', 2);
 irakli.leaveBuilding(store);
 irakli.walk(home);
 irakli.goIn(home);
 irakli.saveItemInHome('book1');
-
 irakli.leaveBuilding(home);
 irakli.walk(store);
 irakli.goIn(store);
-irakli.describePlace();
-console.log(irakli.personIsIn)
-//  console.log(home.items)
-//  console.log(store.storeProducts);
-//  console.log(store.warehouse.returnWarehouseProducts());
-//  console.log(irakli.returnItems());
+//irakli.describePlace();
 
-
+console.log(home.items)
+console.log(store.storeProducts);
+console.log(store.warehouse.returnWarehouseProducts());
+console.log(irakli.returnItems());
 
 
