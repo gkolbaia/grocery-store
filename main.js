@@ -136,6 +136,8 @@ function Person(name) {
                     }
                 }
             }
+        } else {
+            console.log('person is you of building');
         }
     }
 }
@@ -288,45 +290,33 @@ function Store() {
         }
     }
 }
-
 var giorgi = new Person('giorgi');
 var irakli = new Person('irakli');
 var store = new Store();
 var home = new Home();
-store.dayTime();
-giorgi.personAwake();
 irakli.personAwake();
-giorgi.walk(store);
+giorgi.personAwake();
 irakli.walk(store);
+giorgi.walk(store);
 store.addStaff(giorgi);
 giorgi.goIn(store);
-irakli.goIn(store);
-store.buyingProducts('book1', 4, 6);
-store.buyingProducts('book2', 6, 7);
-store.buyingProducts('book3', 11, 9);
-store.buyingProducts('book4', 10, 12);
-store.buyingProducts('book5', 4, 14);
-store.buyingProducts('book6', 2, 2);
-store.getProductsFromWarehouse('book1', 2);
-store.getProductsFromWarehouse('book2', 4);
+store.buyingProducts('book1', 5, 5);
+store.buyingProducts('book2', 4, 7);
+store.buyingProducts('book3', 7, 2);
+store.buyingProducts('book4', 11, 6);
+store.buyingProducts('book5', 8, 8);
+store.buyingProducts('book6', 10, 9);
+store.getProductsFromWarehouse('book1', 4);
+store.getProductsFromWarehouse('book2', 3);
 store.getProductsFromWarehouse('book3', 6);
-store.getProductsFromWarehouse('book4', 8);
-store.getProductsFromWarehouse('book5', 3);
-store.getProductsFromWarehouse('book2', 1);
-irakli.buy('book1', 2);
-store.getProductsFromWarehouse('book1', 2);
+store.getProductsFromWarehouse('book4', 9);
+store.getProductsFromWarehouse('book5', 4);
+store.getProductsFromWarehouse('book6', 7);
+
+irakli.goIn(store);
+irakli.buy('book1', 3);
 irakli.leaveBuilding(store);
 irakli.walk(home);
 irakli.goIn(home);
 irakli.saveItemInHome('book1');
-irakli.leaveBuilding(home);
-irakli.walk(store);
-irakli.goIn(store);
-//irakli.describePlace();
-
-console.log(home.items)
-console.log(store.storeProducts);
-console.log(store.warehouse.returnWarehouseProducts());
-console.log(irakli.returnItems());
-
-
+console.log(irakli.describePlace());
